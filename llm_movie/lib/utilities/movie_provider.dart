@@ -10,7 +10,6 @@ class MovieProvider with ChangeNotifier {
     posterPath: '',
     tmdbId: '',
     streamInfo: [],
-    fetchDate: '',
   );
 
   Movie get movie => _movie;

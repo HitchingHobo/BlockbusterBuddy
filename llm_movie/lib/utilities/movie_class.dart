@@ -6,7 +6,6 @@ class Movie {
   final String posterPath;
   final String tmdbId;
   final List<Map<String, String>> streamInfo;
-  final String fetchDate;
 
   Movie({
     required this.title,
@@ -16,6 +15,5 @@ class Movie {
     required this.posterPath,
     required this.tmdbId,
     required this.streamInfo,
-    required this.fetchDate,
   });
 }

@@ -1,0 +1,9 @@
+TMDB säkningar
+
+Config för listor av genres osv.
+
+Search - Movie hitta genre titel och id
+
+Använd id för att söka på Movies - Credits för att få skådespelare
+
+Använd id för att söka på Movies - Keywords

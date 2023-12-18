@@ -25,7 +25,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(title: 'LLM Movie Homepage'),
+      home: const HomePage(title: 'LLM Movie Homepage'),
     );
   }
 }
@@ -89,15 +89,8 @@ class _HomePageState extends State<HomePage> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Image.network(
-              movie.posterPath,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
             child: Text(
-              movie.tmdbId,
+              movie.posterPath,
               style: const TextStyle(
                 fontSize: 16,
               ),
@@ -106,7 +99,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              movie.fetchDate,
+              movie.tmdbId,
               style: const TextStyle(
                 fontSize: 16,
               ),
@@ -157,7 +150,6 @@ Future<void> getMovie(BuildContext context, FilmApi filmApi,
       posterPath: '',
       tmdbId: '',
       streamInfo: [],
-      fetchDate: '',
     );
 
     Provider.of<MovieProvider>(context, listen: false).setMovie(movie);

@@ -28,13 +28,14 @@ class FilmApi {
   Future<Movie> fetchMovie() async {
     dio.options.headers['Authorization'] = 'Bearer ${config.movieBearerKey}';
     dio.options.headers['Accept'] = 'application/json';
-    final date = DateTime.now();
 
     Response response = await dio.get(
       'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US$pageNumber&sort_by=popularity.desc&with_original_language=en',
     );
     if (kDebugMode) {
       print('Api call sent');
+      print(response.data['results'].length);
+      print(response);
     }
 
     int randomIndex = Random().nextInt(response.data['results'].length);
@@ -50,7 +51,6 @@ class FilmApi {
       tmdbId: randomMovie['id'].toString(),
       streamInfo: [],
       //streamInfo: await fetchStreamInfo(randomMovie['id'].toString()),
-      fetchDate: date.toString(),
     );
     return movie;
   }
