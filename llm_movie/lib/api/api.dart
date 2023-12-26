@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:math';
 import 'package:llm_movie/secrets.dart' as config;
 import 'package:llm_movie/utilities/movie_class.dart';
 
@@ -19,41 +18,57 @@ class FilmApi {
 
   FilmApi(this.dio);
 
-  // Testing numbers
-  String inputYear = '';
-
-//Skickar man in en sökning för page 0 får man error
-  String pageNumber = '&page=${Random().nextInt(9) + 1}';
-
-  Future<Movie> fetchMovie() async {
-    dio.options.headers['Authorization'] = 'Bearer ${config.movieBearerKey}';
+  Future<List<Movie>> fetchMovies(String query) async {
+    dio.options.headers['Authorization'] = 'Bearer $bearerKey';
     dio.options.headers['Accept'] = 'application/json';
 
     Response response = await dio.get(
-      'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US$pageNumber&sort_by=popularity.desc&with_original_language=en',
+      'https://api.themoviedb.org/3/search/movie',
+      queryParameters: {
+        'query': query,
+        'include_adult': false,
+        'language': 'en-US',
+        'page': 1,
+      },
     );
+
     if (kDebugMode) {
       print('Api call sent');
       print(response.data['results'].length);
       print(response);
     }
 
-    int randomIndex = Random().nextInt(response.data['results'].length);
-    Map<String, dynamic> randomMovie = response.data['results'][randomIndex];
+    List<Movie> movies = [];
+    for (var result in response.data['results']) {
+      movies.add(Movie(
+        title: result['title'],
+        description: result['overview'],
+        releaseYear: result['release_date'].toString(),
+        rating: result['vote_average'].toString(),
+        posterPath:
+            'https://image.tmdb.org/t/p/w600_and_h900_bestv2${result['poster_path']}',
+        tmdbId: result['id'].toString(),
+        streamInfo: [],
+        genres: result['genre_ids'],
+      ));
+    }
 
-    final Movie movie = Movie(
-      title: randomMovie['title'],
-      description: randomMovie['overview'],
-      releaseYear: randomMovie['release_date'].toString().substring(0, 4),
-      rating: randomMovie['vote_average'].toString(),
-      posterPath:
-          'https://image.tmdb.org/t/p/w600_and_h900_bestv2${randomMovie['poster_path']}',
-      tmdbId: randomMovie['id'].toString(),
-      streamInfo: [],
-      //streamInfo: await fetchStreamInfo(randomMovie['id'].toString()),
-    );
-    return movie;
+    return movies;
   }
+
+  // final Movie movie = Movie(
+  //   title: randomMovie['title'],
+  //   description: randomMovie['overview'],
+  //   releaseYear: randomMovie['release_date'].toString().substring(0, 4),
+  //   rating: randomMovie['vote_average'].toString(),
+  //   posterPath:
+  //       'https://image.tmdb.org/t/p/w600_and_h900_bestv2${randomMovie['poster_path']}',
+  //   tmdbId: randomMovie['id'].toString(),
+  //   streamInfo: [],
+  //   //streamInfo: await fetchStreamInfo(randomMovie['id'].toString()),
+  //   genres: [],
+  // );
+  // return movie;
 }
 
 Future<List<Map<String, String>>> fetchStreamInfo(String movieId) async {

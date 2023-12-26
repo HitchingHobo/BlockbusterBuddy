@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:llm_movie/api/api.dart';
+import 'package:llm_movie/search_page.dart';
 import 'package:provider/provider.dart';
 import 'package:llm_movie/utilities/movie_class.dart';
 import 'package:llm_movie/utilities/movie_provider.dart';
@@ -42,116 +43,52 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    Movie movie = context.watch<MovieProvider>().movie;
+    final movieProvider = Provider.of<MovieProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-      ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              movie.title,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              movie.description,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              movie.releaseYear,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              movie.rating,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              movie.posterPath,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              movie.tmdbId,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              movie.streamInfo.toString(),
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchPage(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.search),
           ),
         ],
       ),
+      body: ListView.builder(
+        itemCount: movieProvider.movies.length,
+        itemBuilder: (context, index) {
+          Movie movie = movieProvider.movies[index];
+          return ExpansionTile(
+            title: Text(movie.title),
+            subtitle: Text(movie.releaseYear),
+            children: [
+              Text(movie.description),
+              Text(movie.rating),
+              Image.network(movie.posterPath),
+              Text(movie.tmdbId),
+              Text(movie.streamInfo.toString()),
+              Text(movie.genres.toString()),
+            ],
+            // Add more details or customize the UI as needed
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          getMovie(context, FilmApi(dio));
+        onPressed: () async {
+          // Fetch movies and update the MovieProvider
+          List<Movie> movies = await FilmApi(dio).fetchMovies("batman");
+          movieProvider.setMovies(movies);
         },
         child: const Icon(Icons.refresh),
       ),
     );
-  }
-}
-
-Future<void> getMovie(BuildContext context, FilmApi filmApi,
-    {bool forceFetch = true}) async {
-  if (forceFetch) {
-    if (kDebugMode) {
-      print('Fetching movie');
-    }
-    try {
-      final Movie movie = await filmApi.fetchMovie();
-
-      Provider.of<MovieProvider>(context, listen: false).setMovie(movie);
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error fetching movie: $e');
-      }
-    }
-  } else {
-    final Movie movie = Movie(
-      title: 'No movie found',
-      description: '',
-      releaseYear: '',
-      rating: '',
-      posterPath: '',
-      tmdbId: '',
-      streamInfo: [],
-    );
-
-    Provider.of<MovieProvider>(context, listen: false).setMovie(movie);
   }
 }

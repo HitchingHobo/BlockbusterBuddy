@@ -2,20 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:llm_movie/utilities/movie_class.dart';
 
 class MovieProvider with ChangeNotifier {
-  Movie _movie = Movie(
-    title: 'No movie found',
-    description: '',
-    releaseYear: '',
-    rating: '',
-    posterPath: '',
-    tmdbId: '',
-    streamInfo: [],
-  );
+  List<Movie> _movies = [];
 
-  Movie get movie => _movie;
+  List<Movie> get movies => _movies;
 
-  void setMovie(Movie movie) {
-    _movie = movie;
+  void setMovies(List<Movie> movies) {
+    _movies = movies;
     notifyListeners();
   }
 }
