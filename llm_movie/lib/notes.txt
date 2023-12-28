@@ -4,6 +4,6 @@ DONE // Config för listor av genres osv.
 
 DONE // Search - Movie hitta genre titel och id
 
-Använd id för att söka på Movies - Credits för att få skådespelare
+DONE // Använd id för att söka på Movies - Credits för att få skådespelare
 
 DONE // Använd id för att söka på Movies - Keywords

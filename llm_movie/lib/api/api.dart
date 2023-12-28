@@ -52,6 +52,10 @@ class FilmApi {
 
       List<String> keywords = await fetchKeywords(result['id']);
 
+      Map<String, List<String>> credits = await fetchCredits(result['id']);
+      List<String> actors = credits['actors'] ?? [];
+      List<String> director = credits['director'] ?? [];
+
       movies.add(Movie(
         title: result['title'],
         description: result['overview'],
@@ -63,10 +67,47 @@ class FilmApi {
         streamInfo: [],
         genres: genreNames,
         keywords: keywords,
+        actors: actors,
+        director: director,
       ));
     }
 
     return movies;
+  }
+
+  // Credits api-call
+  Future<Map<String, List<String>>> fetchCredits(int movieID) async {
+    dio.options.headers['Authorization'] = 'Bearer $bearerKey';
+    dio.options.headers['Accept'] = 'application/json';
+
+    Response response = await dio.get(
+      'https://api.themoviedb.org/3/movie/$movieID/credits?language=en-US',
+    );
+
+    if (kDebugMode) {
+      //print('Credits API call sent');
+    }
+
+    List<String> actors = [];
+    List<dynamic> cast = response.data['cast'];
+
+    for (var actor in cast.take(6)) {
+      actors.add(actor['name'].toString());
+    }
+
+    List<String> director = [];
+    List<dynamic> crew = response.data['crew'];
+
+    for (var person in crew) {
+      if (person['job'] == 'Director') {
+        director.add(person['name'].toString());
+      }
+    }
+
+    return {
+      'actors': actors,
+      'director': director,
+    };
   }
 
   // Keywords api-call
@@ -79,7 +120,7 @@ class FilmApi {
     );
 
     if (kDebugMode) {
-      print('Keywords API call sent');
+      //print('Keywords API call sent');
     }
 
     List<String> keywords = (response.data['keywords'] as List<dynamic>)

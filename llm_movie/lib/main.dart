@@ -3,6 +3,7 @@ import 'package:llm_movie/api/api.dart';
 import 'package:llm_movie/search_page.dart';
 import 'package:provider/provider.dart';
 import 'package:llm_movie/utilities/movie_class.dart';
+import 'package:llm_movie/utilities/movie_card.dart';
 import 'package:llm_movie/utilities/movie_provider.dart';
 
 void main() {
@@ -57,11 +58,14 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: searchController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Movie title search',
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: searchController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Movie title search',
+                      ),
                     ),
                   ),
                 ),
@@ -71,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                         await FilmApi(dio).fetchMovies(searchController.text);
                     movieProvider.setMovies(movies);
                   },
-                  child: Text('Search'),
+                  child: const Icon(Icons.search),
                 ),
               ],
             ),
@@ -86,23 +90,17 @@ class _HomePageState extends State<HomePage> {
                   return Text('Error: ${snapshot.error}');
                 } else {
                   List<Movie> movies = snapshot.data ?? [];
-                  return ListView.builder(
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8.0,
+                      mainAxisSpacing: 8.0,
+                      childAspectRatio: 2 / 4,
+                    ),
                     itemCount: movies.length,
                     itemBuilder: (context, index) {
-                      Movie movie = movies[index];
-                      return ExpansionTile(
-                        title: Text(movie.title),
-                        subtitle: Text(movie.releaseYear),
-                        children: [
-                          Text(movie.description),
-                          Text(movie.rating),
-                          Image.network(movie.posterPath),
-                          Text(movie.tmdbId),
-                          //Text(movie.streamInfo.toString()),
-                          Text(movie.genres.toString()),
-                          Text(movie.keywords.toString()),
-                        ],
-                      );
+                      return MovieCard(movie: movies[index]);
                     },
                   );
                 }

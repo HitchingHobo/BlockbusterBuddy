@@ -8,6 +8,8 @@ class Movie {
   final List<Map<String, String>> streamInfo;
   final List genres;
   final List<String> keywords;
+  final List<String> actors;
+  final List<String> director;
 
   Movie({
     required this.title,
@@ -19,5 +21,7 @@ class Movie {
     required this.streamInfo,
     required this.genres,
     required this.keywords,
+    required this.actors,
+    required this.director,
   });
 }
