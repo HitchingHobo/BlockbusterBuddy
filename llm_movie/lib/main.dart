@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                     controller: searchController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Movie search',
+                      labelText: 'Movie title search',
                     ),
                   ),
                 ),
@@ -98,8 +98,9 @@ class _HomePageState extends State<HomePage> {
                           Text(movie.rating),
                           Image.network(movie.posterPath),
                           Text(movie.tmdbId),
-                          Text(movie.streamInfo.toString()),
+                          //Text(movie.streamInfo.toString()),
                           Text(movie.genres.toString()),
+                          Text(movie.keywords.toString()),
                         ],
                       );
                     },

@@ -7,6 +7,7 @@ class Movie {
   final String tmdbId;
   final List<Map<String, String>> streamInfo;
   final List genres;
+  final List<String> keywords;
 
   Movie({
     required this.title,
@@ -17,5 +18,6 @@ class Movie {
     required this.tmdbId,
     required this.streamInfo,
     required this.genres,
+    required this.keywords,
   });
 }

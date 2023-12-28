@@ -19,6 +19,7 @@ class FilmApi {
 
   FilmApi(this.dio);
 
+  // Movie api-call
   Future<List<Movie>> fetchMovies(String query) async {
     dio.options.headers['Authorization'] = 'Bearer $bearerKey';
     dio.options.headers['Accept'] = 'application/json';
@@ -34,14 +35,22 @@ class FilmApi {
     );
 
     if (kDebugMode) {
-      print('Api call sent');
+      print('Movie API call sent');
     }
 
     List<Movie> movies = [];
-    for (var result in response.data['results']) {
-      List<String> genreNames = (result['genre_ids'] as List<dynamic>)
+    List<dynamic> results = response.data['results'];
+
+    // Minskar resultaten för att begärnsa api-anrop, varje resultat kräver två till anrop
+    for (var result in results.take(8)) {
+      List<int> genreIds =
+          (result['genre_ids'] as List<dynamic>).cast<int>() ?? [];
+
+      List<String> genreNames = genreIds
           .map((genreId) => genreMap[genreId as int] ?? "Unknown")
           .toList();
+
+      List<String> keywords = await fetchKeywords(result['id']);
 
       movies.add(Movie(
         title: result['title'],
@@ -53,27 +62,35 @@ class FilmApi {
         tmdbId: result['id'].toString(),
         streamInfo: [],
         genres: genreNames,
+        keywords: keywords,
       ));
     }
 
     return movies;
   }
+
+  // Keywords api-call
+  Future<List<String>> fetchKeywords(int movieId) async {
+    dio.options.headers['Authorization'] = 'Bearer $bearerKey';
+    dio.options.headers['Accept'] = 'application/json';
+
+    Response response = await dio.get(
+      'https://api.themoviedb.org/3/movie/$movieId/keywords',
+    );
+
+    if (kDebugMode) {
+      print('Keywords API call sent');
+    }
+
+    List<String> keywords = (response.data['keywords'] as List<dynamic>)
+        .map((keyword) => keyword['name'].toString())
+        .toList();
+
+    return keywords;
+  }
 }
 
-// final Movie movie = Movie(
-//   title: randomMovie['title'],
-//   description: randomMovie['overview'],
-//   releaseYear: randomMovie['release_date'].toString().substring(0, 4),
-//   rating: randomMovie['vote_average'].toString(),
-//   posterPath:
-//       'https://image.tmdb.org/t/p/w600_and_h900_bestv2${randomMovie['poster_path']}',
-//   tmdbId: randomMovie['id'].toString(),
-//   streamInfo: [],
-//   //streamInfo: await fetchStreamInfo(randomMovie['id'].toString()),
-//   genres: [],
-// );
-// return movie;
-
+// Stream info api-call
 Future<List<Map<String, String>>> fetchStreamInfo(String movieId) async {
   Dio dio = Dio();
   List<Map<String, String>> result = [];
