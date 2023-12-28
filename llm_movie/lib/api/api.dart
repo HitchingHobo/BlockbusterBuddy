@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:llm_movie/secrets.dart' as config;
+import 'package:llm_movie/utilities/genre_id.dart';
 import 'package:llm_movie/utilities/movie_class.dart';
 
 extension StringExtension on String {
@@ -34,12 +35,14 @@ class FilmApi {
 
     if (kDebugMode) {
       print('Api call sent');
-      print(response.data['results'].length);
-      print(response);
     }
 
     List<Movie> movies = [];
     for (var result in response.data['results']) {
+      List<String> genreNames = (result['genre_ids'] as List<dynamic>)
+          .map((genreId) => genreMap[genreId as int] ?? "Unknown")
+          .toList();
+
       movies.add(Movie(
         title: result['title'],
         description: result['overview'],
@@ -49,27 +52,27 @@ class FilmApi {
             'https://image.tmdb.org/t/p/w600_and_h900_bestv2${result['poster_path']}',
         tmdbId: result['id'].toString(),
         streamInfo: [],
-        genres: result['genre_ids'],
+        genres: genreNames,
       ));
     }
 
     return movies;
   }
-
-  // final Movie movie = Movie(
-  //   title: randomMovie['title'],
-  //   description: randomMovie['overview'],
-  //   releaseYear: randomMovie['release_date'].toString().substring(0, 4),
-  //   rating: randomMovie['vote_average'].toString(),
-  //   posterPath:
-  //       'https://image.tmdb.org/t/p/w600_and_h900_bestv2${randomMovie['poster_path']}',
-  //   tmdbId: randomMovie['id'].toString(),
-  //   streamInfo: [],
-  //   //streamInfo: await fetchStreamInfo(randomMovie['id'].toString()),
-  //   genres: [],
-  // );
-  // return movie;
 }
+
+// final Movie movie = Movie(
+//   title: randomMovie['title'],
+//   description: randomMovie['overview'],
+//   releaseYear: randomMovie['release_date'].toString().substring(0, 4),
+//   rating: randomMovie['vote_average'].toString(),
+//   posterPath:
+//       'https://image.tmdb.org/t/p/w600_and_h900_bestv2${randomMovie['poster_path']}',
+//   tmdbId: randomMovie['id'].toString(),
+//   streamInfo: [],
+//   //streamInfo: await fetchStreamInfo(randomMovie['id'].toString()),
+//   genres: [],
+// );
+// return movie;
 
 Future<List<Map<String, String>>> fetchStreamInfo(String movieId) async {
   Dio dio = Dio();

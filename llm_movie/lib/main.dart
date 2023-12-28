@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:llm_movie/api/api.dart';
 import 'package:llm_movie/search_page.dart';
@@ -41,6 +40,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final movieProvider = Provider.of<MovieProvider>(context);
@@ -48,47 +49,71 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SearchPage(),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: searchController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Movie search',
+                    ),
+                  ),
                 ),
-              );
-            },
-            icon: const Icon(Icons.search),
+                ElevatedButton(
+                  onPressed: () async {
+                    List<Movie> movies =
+                        await FilmApi(dio).fetchMovies(searchController.text);
+                    movieProvider.setMovies(movies);
+                  },
+                  child: Text('Search'),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder(
+              future: FilmApi(dio).fetchMovies(searchController.text),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  List<Movie> movies = snapshot.data ?? [];
+                  return ListView.builder(
+                    itemCount: movies.length,
+                    itemBuilder: (context, index) {
+                      Movie movie = movies[index];
+                      return ExpansionTile(
+                        title: Text(movie.title),
+                        subtitle: Text(movie.releaseYear),
+                        children: [
+                          Text(movie.description),
+                          Text(movie.rating),
+                          Image.network(movie.posterPath),
+                          Text(movie.tmdbId),
+                          Text(movie.streamInfo.toString()),
+                          Text(movie.genres.toString()),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: movieProvider.movies.length,
-        itemBuilder: (context, index) {
-          Movie movie = movieProvider.movies[index];
-          return ExpansionTile(
-            title: Text(movie.title),
-            subtitle: Text(movie.releaseYear),
-            children: [
-              Text(movie.description),
-              Text(movie.rating),
-              Image.network(movie.posterPath),
-              Text(movie.tmdbId),
-              Text(movie.streamInfo.toString()),
-              Text(movie.genres.toString()),
-            ],
-            // Add more details or customize the UI as needed
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // Fetch movies and update the MovieProvider
-          List<Movie> movies = await FilmApi(dio).fetchMovies("batman");
-          movieProvider.setMovies(movies);
-        },
-        child: const Icon(Icons.refresh),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   child: const Icon(Icons.refresh),
+      // ),
     );
   }
 }
