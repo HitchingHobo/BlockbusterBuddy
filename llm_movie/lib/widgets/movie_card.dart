@@ -38,7 +38,7 @@ class MovieCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
             child: Text(
-              'Release Date: ${movie.releaseYear}',
+              'Release Date: ${movie.releaseDate}',
               style: TextStyle(fontSize: 14.0, color: Colors.grey),
             ),
           ),

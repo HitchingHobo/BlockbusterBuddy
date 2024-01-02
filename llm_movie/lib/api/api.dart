@@ -59,7 +59,7 @@ class FilmApi {
       movies.add(Movie(
         title: result['title'],
         description: result['overview'],
-        releaseYear: result['release_date'].toString(),
+        releaseDate: result['release_date'].toString(),
         rating: result['vote_average'].toString(),
         posterPath:
             'https://image.tmdb.org/t/p/w600_and_h900_bestv2${result['poster_path']}',

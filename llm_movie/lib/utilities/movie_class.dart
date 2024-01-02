@@ -1,7 +1,7 @@
 class Movie {
   final String title;
   final String description;
-  final String releaseYear;
+  final String releaseDate;
   final String rating;
   final String posterPath;
   final String tmdbId;
@@ -14,7 +14,7 @@ class Movie {
   Movie({
     required this.title,
     required this.description,
-    required this.releaseYear,
+    required this.releaseDate,
     required this.rating,
     required this.posterPath,
     required this.tmdbId,
