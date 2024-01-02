@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:llm_movie/api/api.dart';
-import 'package:llm_movie/search_page.dart';
+import 'package:llm_movie/details_page.dart';
 import 'package:provider/provider.dart';
 import 'package:llm_movie/utilities/movie_class.dart';
 import 'package:llm_movie/utilities/movie_card.dart';
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
               future: FilmApi(dio).fetchMovies(searchController.text),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
@@ -100,7 +100,18 @@ class _HomePageState extends State<HomePage> {
                     ),
                     itemCount: movies.length,
                     itemBuilder: (context, index) {
-                      return MovieCard(movie: movies[index]);
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailsPage(movie: movies[index]),
+                            ),
+                          );
+                        },
+                        child: MovieCard(movie: movies[index]),
+                      );
                     },
                   );
                 }
