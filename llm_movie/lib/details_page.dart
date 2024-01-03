@@ -16,7 +16,16 @@ class _DetailsPageState extends State<DetailsPage> {
   double _cameraSliderValue = 5;
   double _castSliderValue = 3;
 
+  List<bool> genreButtonState = [];
+  List<bool> keywordButtonState = [];
+
   @override
+  void initState() {
+    super.initState();
+    genreButtonState = List.filled(widget.movie.genres.length, false);
+    keywordButtonState = List.filled(widget.movie.keywords.length, false);
+  }
+
   Widget build(BuildContext context) {
     String releaseYear = widget.movie.releaseDate.substring(0, 4);
 
@@ -66,6 +75,30 @@ class _DetailsPageState extends State<DetailsPage> {
               );
             },
           ),
+          ToggleButtons(
+            children: widget.movie.genres.map((genre) => Text(genre)).toList(),
+            isSelected: genreButtonState,
+            onPressed: (index) {
+              setState(
+                () {
+                  genreButtonState[index] = !genreButtonState[index];
+                },
+              );
+            },
+          ),
+          ToggleButtons(
+            children:
+                widget.movie.keywords.map((keyword) => Text(keyword)).toList(),
+            isSelected: keywordButtonState,
+            onPressed: (index) {
+              setState(
+                () {
+                  keywordButtonState[index] = !keywordButtonState[index];
+                },
+              );
+            },
+          ),
+// END OF CHILDREN/////////////////
         ],
       ),
     );
