@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:llm_movie/secrets.dart' as config;
 import 'package:llm_movie/utilities/genre_id.dart';
-import 'package:llm_movie/utilities/movie_class.dart';
+import 'package:llm_movie/utilities/data_classes.dart';
 
 extension StringExtension on String {
   String capitalize() {
@@ -43,12 +43,10 @@ class FilmApi {
 
     // Minskar resultaten för att begärnsa api-anrop, varje resultat kräver två till anrop
     for (var result in results.take(8)) {
-      List<int> genreIds =
-          (result['genre_ids'] as List<dynamic>).cast<int>() ?? [];
+      List<int> genreIds = (result['genre_ids'] as List<dynamic>).cast<int>();
 
-      List<String> genreNames = genreIds
-          .map((genreId) => genreMap[genreId as int] ?? "Unknown")
-          .toList();
+      List<String> genreNames =
+          genreIds.map((genreId) => genreMap[genreId] ?? "Unknown").toList();
 
       List<String> keywords = await fetchKeywords(result['id']);
 
@@ -56,13 +54,20 @@ class FilmApi {
       List<String> actors = credits['actors'] ?? [];
       List<String> director = credits['director'] ?? [];
 
+      if (result['poster_path'] == null) {
+        result['poster_path'] =
+            'https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg';
+      } else {
+        result['poster_path'] =
+            'https://image.tmdb.org/t/p/w600_and_h900_bestv2${result['poster_path']}';
+      }
+
       movies.add(Movie(
         title: result['title'],
         description: result['overview'],
         releaseDate: result['release_date'].toString(),
         rating: result['vote_average'].toString(),
-        posterPath:
-            'https://image.tmdb.org/t/p/w600_and_h900_bestv2${result['poster_path']}',
+        posterPath: result['poster_path'].toString(),
         tmdbId: result['id'].toString(),
         streamInfo: [],
         genres: genreNames,
@@ -71,7 +76,6 @@ class FilmApi {
         director: director,
       ));
     }
-
     return movies;
   }
 

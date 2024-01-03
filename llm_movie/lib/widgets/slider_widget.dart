@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:llm_movie/utilities/movie_class.dart';
+import 'package:llm_movie/widgets/textstyles.dart';
 
 class SliderWidget extends StatelessWidget {
   final String title;
@@ -7,6 +7,7 @@ class SliderWidget extends StatelessWidget {
   final Function(double) onChanged;
 
   const SliderWidget({
+    super.key,
     required this.title,
     required this.sliderValue,
     required this.onChanged,
@@ -16,10 +17,7 @@ class SliderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          title,
-          style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-        ),
+        TitleText(text: title),
         Slider(
           value: sliderValue,
           max: 10,

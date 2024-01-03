@@ -25,3 +25,15 @@ class Movie {
     required this.director,
   });
 }
+
+class Actor {
+  final String name;
+  final String character;
+  final String profilePath;
+
+  Actor({
+    required this.name,
+    required this.character,
+    required this.profilePath,
+  });
+}

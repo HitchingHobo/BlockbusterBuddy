@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:llm_movie/utilities/movie_class.dart';
+import 'package:llm_movie/utilities/data_classes.dart';
+import 'package:llm_movie/widgets/buttons.dart';
 import 'package:llm_movie/widgets/slider_widget.dart';
+import 'package:llm_movie/widgets/textstyles.dart';
 
 class DetailsPage extends StatefulWidget {
   final Movie movie;
@@ -26,20 +28,22 @@ class _DetailsPageState extends State<DetailsPage> {
     keywordButtonState = List.filled(widget.movie.keywords.length, false);
   }
 
+  @override
   Widget build(BuildContext context) {
     String releaseYear = widget.movie.releaseDate.substring(0, 4);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.movie.title),
+        title: Text('${widget.movie.title} ($releaseYear)'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(12.0),
         children: [
-          Text(
-            'What did you think about ${widget.movie.title} ($releaseYear)',
-            style: const TextStyle(
-              fontSize: 20.0,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Center(
+              child: SubtitleText(
+                  text: 'What do you think about ${widget.movie.title}'),
             ),
           ),
           SliderWidget(
@@ -75,27 +79,24 @@ class _DetailsPageState extends State<DetailsPage> {
               );
             },
           ),
-          ToggleButtons(
-            children: widget.movie.genres.map((genre) => Text(genre)).toList(),
+          TitleText(text: 'Genres'),
+          ToggleButtonsWrap(
             isSelected: genreButtonState,
+            items: widget.movie.genres.cast<String>(),
             onPressed: (index) {
-              setState(
-                () {
-                  genreButtonState[index] = !genreButtonState[index];
-                },
-              );
+              setState(() {
+                genreButtonState[index] = !genreButtonState[index];
+              });
             },
           ),
-          ToggleButtons(
-            children:
-                widget.movie.keywords.map((keyword) => Text(keyword)).toList(),
+          TitleText(text: 'Keywords'),
+          ToggleButtonsWrap(
             isSelected: keywordButtonState,
+            items: widget.movie.keywords,
             onPressed: (index) {
-              setState(
-                () {
-                  keywordButtonState[index] = !keywordButtonState[index];
-                },
-              );
+              setState(() {
+                keywordButtonState[index] = !keywordButtonState[index];
+              });
             },
           ),
 // END OF CHILDREN/////////////////

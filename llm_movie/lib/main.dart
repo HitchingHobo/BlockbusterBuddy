@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:llm_movie/api/api.dart';
 import 'package:llm_movie/details_page.dart';
 import 'package:provider/provider.dart';
-import 'package:llm_movie/utilities/movie_class.dart';
+import 'package:llm_movie/utilities/data_classes.dart';
 import 'package:llm_movie/widgets/movie_card.dart';
 import 'package:llm_movie/utilities/movie_provider.dart';
 
