@@ -15,6 +15,7 @@ class TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      maxLines: 2,
       style: const TextStyle(
         fontSize: 20.0,
         fontWeight: FontWeight.bold,
@@ -33,8 +34,9 @@ class SubtitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      maxLines: 2,
       style: const TextStyle(
-        fontSize: 20.0,
+        fontSize: 18.0,
         overflow: TextOverflow.ellipsis,
       ),
     );

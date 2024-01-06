@@ -99,15 +99,17 @@ class FilmApi {
       actors.add(actor['name'].toString());
     }
 
+// Kanske inte behövs
+    // List<String> director = [];
+    // List<dynamic> crew = response.data['crew'];
+
+    // for (var person in crew) {
+    //   if (person['job'] == 'Director') {
+    //     director.add(person['name'].toString());
+    //   }
+    // }
+
     List<String> director = [];
-    List<dynamic> crew = response.data['crew'];
-
-    for (var person in crew) {
-      if (person['job'] == 'Director') {
-        director.add(person['name'].toString());
-      }
-    }
-
     return {
       'actors': actors,
       'director': director,

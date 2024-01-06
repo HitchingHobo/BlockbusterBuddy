@@ -26,6 +26,7 @@ class Movie {
   });
 }
 
+// Används inte (än)
 class Actor {
   final String name;
   final String character;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:llm_movie/utilities/data_classes.dart';
+import 'package:llm_movie/utilities/genre_id.dart';
 import 'package:llm_movie/widgets/buttons.dart';
 import 'package:llm_movie/widgets/slider_widget.dart';
 import 'package:llm_movie/widgets/textstyles.dart';
@@ -7,7 +8,7 @@ import 'package:llm_movie/widgets/textstyles.dart';
 class DetailsPage extends StatefulWidget {
   final Movie movie;
 
-  DetailsPage({Key? key, required this.movie}) : super(key: key);
+  const DetailsPage({Key? key, required this.movie}) : super(key: key);
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -20,12 +21,18 @@ class _DetailsPageState extends State<DetailsPage> {
 
   List<bool> genreButtonState = [];
   List<bool> keywordButtonState = [];
+  List<bool> actorsButtonState = [];
+  List<bool> tweakButtonState = [];
 
   @override
   void initState() {
     super.initState();
     genreButtonState = List.filled(widget.movie.genres.length, false);
     keywordButtonState = List.filled(widget.movie.keywords.length, false);
+    actorsButtonState = List.filled(widget.movie.actors.length, false);
+    tweakButtonState = List.filled(genreMap.length, false);
+
+    //List<String> genreList = genreMap.values.toList();
   }
 
   @override
@@ -43,7 +50,7 @@ class _DetailsPageState extends State<DetailsPage> {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Center(
               child: SubtitleText(
-                  text: 'What do you think about ${widget.movie.title}'),
+                  text: 'What did you think about ${widget.movie.title}?'),
             ),
           ),
           SliderWidget(
@@ -69,7 +76,7 @@ class _DetailsPageState extends State<DetailsPage> {
             },
           ),
           SliderWidget(
-            title: 'Cast',
+            title: 'Directing',
             sliderValue: _castSliderValue,
             onChanged: (double value) {
               setState(
@@ -79,7 +86,7 @@ class _DetailsPageState extends State<DetailsPage> {
               );
             },
           ),
-          TitleText(text: 'Genres'),
+          const TitleText(text: 'Genres'),
           ToggleButtonsWrap(
             isSelected: genreButtonState,
             items: widget.movie.genres.cast<String>(),
@@ -89,7 +96,10 @@ class _DetailsPageState extends State<DetailsPage> {
               });
             },
           ),
-          TitleText(text: 'Keywords'),
+          const Padding(
+            padding: EdgeInsets.only(top: 8.0),
+            child: TitleText(text: 'Keywords'),
+          ),
           ToggleButtonsWrap(
             isSelected: keywordButtonState,
             items: widget.movie.keywords,
@@ -99,6 +109,35 @@ class _DetailsPageState extends State<DetailsPage> {
               });
             },
           ),
+          const Padding(
+            padding: EdgeInsets.only(top: 8.0),
+            child: TitleText(text: 'Actors'),
+          ),
+          ToggleButtonsWrap(
+            isSelected: actorsButtonState,
+            items: widget.movie.actors,
+            onPressed: (index) {
+              setState(() {
+                actorsButtonState[index] = !actorsButtonState[index];
+              });
+            },
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 8.0),
+            child: TitleText(
+                text:
+                    'What would you like your recommendation to include more of?'),
+          ),
+          ToggleButtonsWrap(
+            isSelected: tweakButtonState,
+            items: genreMap.values.toList(),
+            onPressed: (index) {
+              setState(() {
+                tweakButtonState[index] = !tweakButtonState[index];
+              });
+            },
+          ),
+
 // END OF CHILDREN/////////////////
         ],
       ),
