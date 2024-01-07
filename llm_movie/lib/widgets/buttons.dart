@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:llm_movie/utilities/genre_id.dart';
 import 'package:llm_movie/widgets/textstyles.dart';
 
 class ToggleButtonsWrap extends StatefulWidget {

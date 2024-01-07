@@ -84,7 +84,8 @@ class _HomePageState extends State<HomePage> {
             child: FutureBuilder(
               future: FilmApi(dio).fetchMovies(searchController.text),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+                if (snapshot.connectionState == ConnectionState.waiting ||
+                    snapshot.connectionState == ConnectionState.none) {
                   return const SizedBox(
                       child: Center(child: CircularProgressIndicator()));
                 } else if (snapshot.hasError) {

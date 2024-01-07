@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:llm_movie/results_page.dart';
 import 'package:llm_movie/utilities/data_classes.dart';
 import 'package:llm_movie/utilities/genre_id.dart';
 import 'package:llm_movie/widgets/buttons.dart';
@@ -136,6 +138,42 @@ class _DetailsPageState extends State<DetailsPage> {
                 tweakButtonState[index] = !tweakButtonState[index];
               });
             },
+          ),
+          ElevatedButton(
+            onPressed: () {
+              List<String> selectedGenres = [];
+              for (int i = 0; i < genreButtonState.length; i++) {
+                if (genreButtonState[i]) {
+                  selectedGenres.add(widget.movie.genres[i]);
+                }
+              }
+              List<String> selectedKeywords = [];
+              for (int i = 0; i < keywordButtonState.length; i++) {
+                if (keywordButtonState[i]) {
+                  selectedKeywords.add(widget.movie.keywords[i]);
+                }
+              }
+              List<String> selectedActors = [];
+              for (int i = 0; i < actorsButtonState.length; i++) {
+                if (actorsButtonState[i]) {
+                  selectedActors.add(widget.movie.actors[i]);
+                }
+              }
+              if (kDebugMode) {
+                print('Story Slider: $_storySliderValue');
+                print('Camera Slider: $_cameraSliderValue');
+                print('Cast Slider: $_castSliderValue');
+                print('Selected Genres: $selectedGenres');
+                print('Selected Keywords: $selectedKeywords');
+              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Resultspage(),
+                ),
+              );
+            },
+            child: const Text('Get a recommendation!'),
           ),
 
 // END OF CHILDREN/////////////////
