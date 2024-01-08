@@ -122,10 +122,12 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   child: const Icon(Icons.refresh),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          //fetchRecommendations('test');
+        },
+        child: const Icon(Icons.wifi),
+      ),
     );
   }
 }

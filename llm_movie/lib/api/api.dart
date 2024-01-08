@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:llm_movie/api/prompt_test_text.dart';
 import 'package:llm_movie/secrets.dart' as config;
 import 'package:llm_movie/utilities/genre_id.dart';
 import 'package:llm_movie/utilities/data_classes.dart';
+import 'package:dart_openai/dart_openai.dart';
+import 'dart:convert';
 
 extension StringExtension on String {
   String capitalize() {
@@ -13,6 +16,7 @@ extension StringExtension on String {
 final Dio dio = Dio();
 String bearerKey = config.movieBearerKey;
 String streamKey = config.rapidAPIKey;
+String openAiKey = config.openAiKey;
 
 class FilmApi {
   final Dio dio;
@@ -74,6 +78,27 @@ class FilmApi {
         keywords: keywords,
         actors: actors,
         director: director,
+        tweakGenres: [
+          'Action',
+          'Adventure',
+          'Animation',
+          'Comedy',
+          'Crime',
+          'Documentary',
+          'Drama',
+          'Family',
+          'Fantasy',
+          'History',
+          'Horror',
+          'Music',
+          'Mystery',
+          'Romance',
+          'Science Fiction',
+          'TV Movie',
+          'Thriller',
+          'War',
+          'Western',
+        ],
       ));
     }
     return movies;
@@ -185,4 +210,66 @@ Future<List<Map<String, String>>> fetchStreamInfo(String movieId) async {
     }
   }
   return result;
+}
+
+Future<List<dynamic>> fetchRecommendations(String prompt) async {
+  OpenAI.requestsTimeOut = const Duration(seconds: 60);
+  OpenAI.apiKey = openAiKey;
+  // OpenAI.showResponsesLogs = true;
+  // OpenAI.showLogs = true;
+
+  final systemMessage = OpenAIChatCompletionChoiceMessageModel(
+    content: [
+      OpenAIChatCompletionChoiceMessageContentItemModel.text(
+        PrompText().assistant_instructions,
+      ),
+    ],
+    role: OpenAIChatMessageRole.assistant,
+  );
+
+  final userMessage = OpenAIChatCompletionChoiceMessageModel(
+    content: [
+      OpenAIChatCompletionChoiceMessageContentItemModel.text(
+        prompt,
+      ),
+    ],
+    role: OpenAIChatMessageRole.user,
+  );
+
+  final requestMessages = [
+    systemMessage,
+    userMessage,
+  ];
+
+  OpenAIChatCompletionModel chatCompletion = await OpenAI.instance.chat.create(
+    model: "gpt-3.5-turbo-1106",
+    responseFormat: {"type": "json_object"},
+    seed: 6,
+    messages: requestMessages,
+    temperature: 1.2,
+    maxTokens: 700,
+  );
+
+  if (kDebugMode) {
+    print('OpenAI API call sent');
+    // print(chatCompletion.choices.first.message);
+    // print(chatCompletion.usage.promptTokens);
+    // print(chatCompletion.id);
+  }
+  print(chatCompletion.choices.first.message);
+
+  Map<String, dynamic> mappedchat = chatCompletion.choices[0].message.toMap();
+  String jsonString = mappedchat['content'][0]['text'];
+
+  Map<String, dynamic> responseMap = jsonDecode(jsonString);
+
+  List<dynamic> recommendationList = responseMap['movies'];
+
+  // for (Map<String, dynamic> movie in moviesList) {
+  //   String title = movie['title'];
+  //   int releaseYear = movie['release_year'];
+  //   String explanation = movie['explanation'];
+  // }
+
+  return recommendationList;
 }

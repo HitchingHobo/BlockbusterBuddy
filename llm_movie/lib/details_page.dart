@@ -20,6 +20,7 @@ class _DetailsPageState extends State<DetailsPage> {
   double _storySliderValue = 8;
   double _cameraSliderValue = 5;
   double _castSliderValue = 3;
+  RangeValues _selectedYearRange = const RangeValues(1960, 2020);
 
   List<bool> genreButtonState = [];
   List<bool> keywordButtonState = [];
@@ -132,13 +133,25 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
           ToggleButtonsWrap(
             isSelected: tweakButtonState,
-            items: genreMap.values.toList(),
+            items: widget.movie.tweakGenres.toList(),
             onPressed: (index) {
               setState(() {
                 tweakButtonState[index] = !tweakButtonState[index];
               });
             },
           ),
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 8.0),
+          //   child: YearRangeSlider(
+          //     title: 'Movies released between',
+          //     yearRange: _selectedYearRange,
+          //     onChanged: (values) {
+          //       setState(() {
+          //         _selectedYearRange = values;
+          //       });
+          //     },
+          //   ),
+          // ),
           ElevatedButton(
             onPressed: () {
               List<String> selectedGenres = [];
@@ -159,6 +172,13 @@ class _DetailsPageState extends State<DetailsPage> {
                   selectedActors.add(widget.movie.actors[i]);
                 }
               }
+              List<String> selectedTweaks = [];
+              for (int i = 0; i < tweakButtonState.length; i++) {
+                if (tweakButtonState[i]) {
+                  selectedTweaks.add(widget.movie.tweakGenres[i]);
+                }
+              }
+
               if (kDebugMode) {
                 print('Story Slider: $_storySliderValue');
                 print('Camera Slider: $_cameraSliderValue');
@@ -166,10 +186,24 @@ class _DetailsPageState extends State<DetailsPage> {
                 print('Selected Genres: $selectedGenres');
                 print('Selected Keywords: $selectedKeywords');
               }
+              Llmprompt prompt = Llmprompt(
+                title: widget.movie.title,
+                releaseYear: releaseYear,
+                story: _storySliderValue.toInt(),
+                cinematography: _cameraSliderValue.toInt(),
+                directing: _castSliderValue.toInt(),
+                genres: selectedGenres,
+                keywords: selectedKeywords,
+                actors: selectedActors,
+                tweakGenres: selectedTweaks,
+              );
+              print('Prompt print in details_page ROW 200');
+              print(prompt.createPrompt());
+
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Resultspage(),
+                  builder: (context) => Resultspage(prompt: prompt),
                 ),
               );
             },

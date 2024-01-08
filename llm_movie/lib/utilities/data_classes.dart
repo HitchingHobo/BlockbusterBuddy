@@ -10,6 +10,8 @@ class Movie {
   final List<String> keywords;
   final List<String> actors;
   final List<String> director;
+  final List<String> tweakGenres;
+  String? explanation;
 
   Movie({
     required this.title,
@@ -23,6 +25,7 @@ class Movie {
     required this.keywords,
     required this.actors,
     required this.director,
+    required this.tweakGenres,
   });
 }
 
@@ -37,4 +40,43 @@ class Actor {
     required this.character,
     required this.profilePath,
   });
+}
+
+class Llmprompt {
+  final String title;
+  final String releaseYear;
+  final int story;
+  final int cinematography;
+  final int directing;
+  final List<String> genres;
+  final List<String> keywords;
+  final List<String> actors;
+  final List<String> tweakGenres;
+
+  Llmprompt({
+    required this.title,
+    required this.releaseYear,
+    required this.story,
+    required this.cinematography,
+    required this.directing,
+    required this.genres,
+    required this.keywords,
+    required this.actors,
+    required this.tweakGenres,
+  });
+
+  String createPrompt() {
+    return '{'
+        ' Title: $title,'
+        ' Release Year: $releaseYear,'
+        ' User Ratings {'
+        ' Story (0-10): $story,'
+        ' Cinematography (0-10): $cinematography,'
+        ' Directing (0-10): $directing,'
+        ' Genres: $genres,'
+        ' Keywords: $keywords,'
+        ' Actors: $actors,'
+        ' TweakGenres: $tweakGenres'
+        '}}';
+  }
 }
