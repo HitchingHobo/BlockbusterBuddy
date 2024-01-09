@@ -38,8 +38,9 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    String releaseYear = widget.movie.releaseDate.substring(0, 4);
-
+    String releaseYear = widget.movie.releaseDate.length >= 4
+        ? widget.movie.releaseDate.substring(0, 4)
+        : 'Release not found';
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ratings page'),
@@ -166,10 +167,11 @@ class _DetailsPageState extends State<DetailsPage> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                fixedSize: const Size(85, 60),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0)),
-              ),
+                  fixedSize: const Size(85, 60),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.0),
+                  ),
+                  elevation: 8),
               onPressed: () {
                 List<String> selectedGenres = [];
                 for (int i = 0; i < genreButtonState.length; i++) {

@@ -9,7 +9,9 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String releaseYear = movie.releaseDate.substring(0, 4);
+    String releaseYear = movie.releaseDate.length >= 4
+        ? movie.releaseDate.substring(0, 4)
+        : 'Release not found';
     return Card(
       margin: const EdgeInsets.all(8.0),
       elevation: 4,
