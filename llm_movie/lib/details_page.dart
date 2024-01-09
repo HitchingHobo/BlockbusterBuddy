@@ -4,6 +4,7 @@ import 'package:llm_movie/results_page.dart';
 import 'package:llm_movie/utilities/data_classes.dart';
 import 'package:llm_movie/utilities/genre_id.dart';
 import 'package:llm_movie/widgets/buttons.dart';
+import 'package:llm_movie/widgets/formatting_widget.dart';
 import 'package:llm_movie/widgets/slider_widget.dart';
 import 'package:llm_movie/widgets/textstyles.dart';
 
@@ -34,8 +35,6 @@ class _DetailsPageState extends State<DetailsPage> {
     keywordButtonState = List.filled(widget.movie.keywords.length, false);
     actorsButtonState = List.filled(widget.movie.actors.length, false);
     tweakButtonState = List.filled(genreMap.length, false);
-
-    //List<String> genreList = genreMap.values.toList();
   }
 
   @override
@@ -44,17 +43,20 @@ class _DetailsPageState extends State<DetailsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.movie.title} ($releaseYear)'),
+        title: Text('Ratings page'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(12.0),
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Center(
-              child: SubtitleText(
-                  text: 'What did you think about ${widget.movie.title}?'),
+          Center(
+            child: TitleText(
+              text: '${widget.movie.title} (${releaseYear}) ',
             ),
+          ),
+          DetailsPosterFormat(
+            posterPath: widget.movie.posterPath,
+            title: widget.movie.title,
+            releaseYear: releaseYear,
           ),
           SliderWidget(
             title: 'Story',
@@ -89,57 +91,74 @@ class _DetailsPageState extends State<DetailsPage> {
               );
             },
           ),
-          const TitleText(text: 'Genres'),
-          ToggleButtonsWrap(
-            isSelected: genreButtonState,
-            items: widget.movie.genres.cast<String>(),
-            onPressed: (index) {
-              setState(() {
-                genreButtonState[index] = !genreButtonState[index];
-              });
-            },
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 8.0),
-            child: TitleText(text: 'Keywords'),
-          ),
-          ToggleButtonsWrap(
-            isSelected: keywordButtonState,
-            items: widget.movie.keywords,
-            onPressed: (index) {
-              setState(() {
-                keywordButtonState[index] = !keywordButtonState[index];
-              });
-            },
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 8.0),
-            child: TitleText(text: 'Actors'),
-          ),
-          ToggleButtonsWrap(
-            isSelected: actorsButtonState,
-            items: widget.movie.actors,
-            onPressed: (index) {
-              setState(() {
-                actorsButtonState[index] = !actorsButtonState[index];
-              });
-            },
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 8.0),
-            child: TitleText(
-                text:
-                    'What would you like your recommendation to include more of?'),
-          ),
-          ToggleButtonsWrap(
-            isSelected: tweakButtonState,
-            items: widget.movie.tweakGenres.toList(),
-            onPressed: (index) {
-              setState(() {
-                tweakButtonState[index] = !tweakButtonState[index];
-              });
-            },
-          ),
+          DetailsFormat(children: [
+            const TitleText(
+              text: 'Genres',
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+            ),
+            ToggleButtonsWrap(
+              isSelected: genreButtonState,
+              items: widget.movie.genres.cast<String>(),
+              onPressed: (index) {
+                setState(
+                  () {
+                    genreButtonState[index] = !genreButtonState[index];
+                  },
+                );
+              },
+            ),
+          ]),
+          DetailsFormat(children: [
+            const TitleText(
+              text: 'Keywords',
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+            ),
+            ToggleButtonsWrap(
+              isSelected: keywordButtonState,
+              items: widget.movie.keywords,
+              onPressed: (index) {
+                setState(
+                  () {
+                    keywordButtonState[index] = !keywordButtonState[index];
+                  },
+                );
+              },
+            ),
+          ]),
+          DetailsFormat(children: [
+            const TitleText(
+              text: 'Actors',
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+            ),
+            ToggleButtonsWrap(
+              isSelected: actorsButtonState,
+              items: widget.movie.actors,
+              onPressed: (index) {
+                setState(
+                  () {
+                    actorsButtonState[index] = !actorsButtonState[index];
+                  },
+                );
+              },
+            ),
+          ]),
+          DetailsFormat(children: [
+            const TitleText(
+              text: 'What would you like to see more of?',
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+            ),
+            ToggleButtonsWrap(
+              isSelected: tweakButtonState,
+              items: widget.movie.tweakGenres.toList(),
+              onPressed: (index) {
+                setState(
+                  () {
+                    tweakButtonState[index] = !tweakButtonState[index];
+                  },
+                );
+              },
+            ),
+          ]),
           // Padding(
           //   padding: const EdgeInsets.only(top: 8.0),
           //   child: YearRangeSlider(
@@ -207,7 +226,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 ),
               );
             },
-            child: const Text('Get a recommendation!'),
+            child: const Text('Get your recommendation'),
           ),
 
 // END OF CHILDREN/////////////////

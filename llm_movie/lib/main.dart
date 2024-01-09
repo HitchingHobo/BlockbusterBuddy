@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:llm_movie/api/api.dart';
 import 'package:llm_movie/details_page.dart';
+import 'package:llm_movie/testpage.dart';
 import 'package:provider/provider.dart';
 import 'package:llm_movie/utilities/data_classes.dart';
 import 'package:llm_movie/widgets/movie_card.dart';
@@ -22,7 +23,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'LLM Movie',
+      title: 'BlockbusterBuddy',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -124,7 +125,12 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //fetchRecommendations('test');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Testpage(),
+            ),
+          );
         },
         child: const Icon(Icons.wifi),
       ),

@@ -1,5 +1,7 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dio/dio.dart';
 import 'package:llm_movie/api/api.dart';
+import 'package:llm_movie/testpage.dart';
 import 'package:llm_movie/utilities/data_classes.dart';
 import 'package:flutter/material.dart';
 
@@ -66,7 +68,7 @@ class _ResultspageState extends State<Resultspage> {
 
   Widget _buildResult() {
     if (_fetchedMovies == null) {
-      return const Center(child: CircularProgressIndicator());
+      return LoadingText();
     } else {
       return ListView.builder(
         itemCount: _fetchedMovies!.length,

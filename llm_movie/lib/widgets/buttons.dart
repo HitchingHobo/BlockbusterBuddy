@@ -39,7 +39,8 @@ class ToggleButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
 
-  ToggleButton({
+  const ToggleButton({
+    super.key,
     required this.isSelected,
     required this.onPressed,
     required this.text,
@@ -47,11 +48,29 @@ class ToggleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return OutlinedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
-          isSelected ? Colors.blue : Colors.grey,
+        side: MaterialStateProperty.all(
+          BorderSide(
+            color: isSelected ? Colors.blue : Colors.white,
+            width: 2.0,
+          ),
+        ),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14.0),
+          ),
+        ),
+        padding: MaterialStateProperty.all(
+          const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
+        ),
+        textStyle: MaterialStateProperty.all(
+          TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            color: isSelected ? Colors.blue : Colors.grey,
+          ),
         ),
       ),
       child: Text(text.capitalizeFirstLetter()),

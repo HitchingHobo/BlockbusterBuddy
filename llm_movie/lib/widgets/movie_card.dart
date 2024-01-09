@@ -5,10 +5,11 @@ import 'package:llm_movie/widgets/textstyles.dart';
 class MovieCard extends StatelessWidget {
   final Movie movie;
 
-  const MovieCard({required this.movie});
+  MovieCard({required this.movie});
 
   @override
   Widget build(BuildContext context) {
+    String releaseYear = movie.releaseDate.substring(0, 4);
     return Card(
       margin: const EdgeInsets.all(8.0),
       elevation: 4,
@@ -37,7 +38,7 @@ class MovieCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
             child: BodyText(
-              text: 'Release Date: ${movie.releaseDate}',
+              text: '($releaseYear)',
             ),
           ),
         ],

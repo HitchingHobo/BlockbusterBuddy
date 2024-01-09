@@ -8,18 +8,23 @@ extension StringExtension on String {
 
 class TitleText extends StatelessWidget {
   final String text;
+  final EdgeInsets? padding;
 
-  const TitleText({super.key, required this.text});
+  const TitleText({super.key, required this.text, this.padding});
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      maxLines: 2,
-      style: const TextStyle(
-        fontSize: 20.0,
-        fontWeight: FontWeight.bold,
-        overflow: TextOverflow.ellipsis,
+    return Padding(
+      padding: padding ?? EdgeInsets.zero,
+      child: Text(
+        text,
+        maxLines: 2,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }
@@ -27,17 +32,21 @@ class TitleText extends StatelessWidget {
 
 class SubtitleText extends StatelessWidget {
   final String text;
+  final EdgeInsets? padding;
 
-  const SubtitleText({super.key, required this.text});
+  const SubtitleText({super.key, required this.text, this.padding});
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      maxLines: 2,
-      style: const TextStyle(
-        fontSize: 18.0,
-        overflow: TextOverflow.ellipsis,
+    return Padding(
+      padding: padding ?? EdgeInsets.zero,
+      child: Text(
+        text,
+        maxLines: 2,
+        style: const TextStyle(
+          fontSize: 18.0,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }
@@ -45,15 +54,19 @@ class SubtitleText extends StatelessWidget {
 
 class BodyText extends StatelessWidget {
   final String text;
+  final EdgeInsets? padding;
 
-  const BodyText({super.key, required this.text});
+  const BodyText({super.key, required this.text, this.padding});
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(fontSize: 14.0, color: Colors.grey),
-      overflow: TextOverflow.ellipsis,
+    return Padding(
+      padding: padding ?? EdgeInsets.zero,
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 16.0, color: Colors.grey),
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }
