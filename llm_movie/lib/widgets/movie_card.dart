@@ -5,7 +5,7 @@ import 'package:llm_movie/widgets/textstyles.dart';
 class MovieCard extends StatelessWidget {
   final Movie movie;
 
-  MovieCard({required this.movie});
+  const MovieCard({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class MovieCard extends StatelessWidget {
           Image.network(
             movie.posterPath,
             width: double.infinity,
-            height: 300.0,
+            height: 270.0,
             fit: BoxFit.cover,
           ),
           Padding(
@@ -36,7 +36,7 @@ class MovieCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+            padding: const EdgeInsets.only(left: 8.0),
             child: BodyText(
               text: '($releaseYear)',
             ),

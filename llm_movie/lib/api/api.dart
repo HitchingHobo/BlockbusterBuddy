@@ -221,7 +221,7 @@ Future<List<dynamic>> fetchRecommendations(String prompt) async {
   final systemMessage = OpenAIChatCompletionChoiceMessageModel(
     content: [
       OpenAIChatCompletionChoiceMessageContentItemModel.text(
-        PrompText().assistant_instructions,
+        PrompText().assistantInstructions,
       ),
     ],
     role: OpenAIChatMessageRole.assistant,
@@ -256,8 +256,6 @@ Future<List<dynamic>> fetchRecommendations(String prompt) async {
     // print(chatCompletion.usage.promptTokens);
     // print(chatCompletion.id);
   }
-  print(chatCompletion.choices.first.message);
-
   Map<String, dynamic> mappedchat = chatCompletion.choices[0].message.toMap();
   String jsonString = mappedchat['content'][0]['text'];
 

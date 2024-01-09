@@ -21,7 +21,6 @@ class _DetailsPageState extends State<DetailsPage> {
   double _storySliderValue = 8;
   double _cameraSliderValue = 5;
   double _castSliderValue = 3;
-  RangeValues _selectedYearRange = const RangeValues(1960, 2020);
 
   List<bool> genreButtonState = [];
   List<bool> keywordButtonState = [];
@@ -43,14 +42,14 @@ class _DetailsPageState extends State<DetailsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ratings page'),
+        title: const Text('Ratings page'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(12.0),
         children: [
           Center(
             child: TitleText(
-              text: '${widget.movie.title} (${releaseYear}) ',
+              text: '${widget.movie.title} ($releaseYear) ',
             ),
           ),
           DetailsPosterFormat(
@@ -97,6 +96,7 @@ class _DetailsPageState extends State<DetailsPage> {
               padding: EdgeInsets.symmetric(vertical: 8.0),
             ),
             ToggleButtonsWrap(
+              title: 'genres',
               isSelected: genreButtonState,
               items: widget.movie.genres.cast<String>(),
               onPressed: (index) {
@@ -114,6 +114,7 @@ class _DetailsPageState extends State<DetailsPage> {
               padding: EdgeInsets.symmetric(vertical: 8.0),
             ),
             ToggleButtonsWrap(
+              title: 'keywords',
               isSelected: keywordButtonState,
               items: widget.movie.keywords,
               onPressed: (index) {
@@ -131,6 +132,7 @@ class _DetailsPageState extends State<DetailsPage> {
               padding: EdgeInsets.symmetric(vertical: 8.0),
             ),
             ToggleButtonsWrap(
+              title: 'actors',
               isSelected: actorsButtonState,
               items: widget.movie.actors,
               onPressed: (index) {
@@ -148,6 +150,7 @@ class _DetailsPageState extends State<DetailsPage> {
               padding: EdgeInsets.symmetric(vertical: 8.0),
             ),
             ToggleButtonsWrap(
+              title: 'new genres',
               isSelected: tweakButtonState,
               items: widget.movie.tweakGenres.toList(),
               onPressed: (index) {
@@ -159,18 +162,6 @@ class _DetailsPageState extends State<DetailsPage> {
               },
             ),
           ]),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 8.0),
-          //   child: YearRangeSlider(
-          //     title: 'Movies released between',
-          //     yearRange: _selectedYearRange,
-          //     onChanged: (values) {
-          //       setState(() {
-          //         _selectedYearRange = values;
-          //       });
-          //     },
-          //   ),
-          // ),
           ElevatedButton(
             onPressed: () {
               List<String> selectedGenres = [];
@@ -216,9 +207,6 @@ class _DetailsPageState extends State<DetailsPage> {
                 actors: selectedActors,
                 tweakGenres: selectedTweaks,
               );
-              print('Prompt print in details_page ROW 200');
-              print(prompt.createPrompt());
-
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -228,29 +216,8 @@ class _DetailsPageState extends State<DetailsPage> {
             },
             child: const Text('Get your recommendation'),
           ),
-
-// END OF CHILDREN/////////////////
         ],
       ),
     );
   }
 }
-
-
-
- // body: ListView(
-          //   padding: const EdgeInsets.all(12.0),
-          //   children: [
-          //     Text(movie.title),
-          //     Text(movie.description),
-          //     Text('Released in: ${movie.releaseDate}'),
-          //     Text('Rating (0-10): ${movie.rating}'),
-          //     Text('Tmdb id: ${movie.tmdbId}'),
-          //     Text('Streaming info: ${movie.streamInfo.toString()}'),
-          //     Text('Genres: ${movie.genres.toString()}'),
-          //     Text('Keywords: ${movie.keywords.toString()}'),
-          //     Text('Actors: ${movie.actors.toString()}'),
-          //     Text('Director: ${movie.director.toString()}'),
-          //     Image.network(movie.posterPath),
-          //   ],
-          // ),

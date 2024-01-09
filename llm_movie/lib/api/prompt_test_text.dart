@@ -1,5 +1,5 @@
 class PrompText {
-  final String assistant_instructions =
+  final String assistantInstructions =
       """You are a helpful assistant that recommends movies to the user based on the users rating of another movie. 
 
 The goal is to pick a similar movie to the one rated by the user based on the users rating.
@@ -20,7 +20,7 @@ movies: [
 }
 
 class TestPrompt {
-  final String gump_prompt = """Rated movie: forrest gump
+  final String gumpPrompt = """Rated movie: forrest gump
 Released in: 1994
 
 Users ratings{ 

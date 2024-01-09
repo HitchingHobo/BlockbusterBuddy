@@ -1,57 +1,25 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:llm_movie/widgets/formatting_widget.dart';
 
 class Testpage extends StatelessWidget {
+  const Testpage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Testpage'),
+        title: const Text('Testpage'),
       ),
-      body: LoadingText(),
+      body: const TestPage(),
     );
   }
 }
 
-class LoadingText extends StatelessWidget {
+class TestPage extends StatelessWidget {
+  const TestPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Center(
-          child: DefaultTextStyle(
-            style: const TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-            child: AnimatedTextKit(
-              animatedTexts: [
-                TypewriterAnimatedText(
-                  'Paging BlockbusterBuddy...',
-                  speed: const Duration(milliseconds: 200),
-                ),
-                TypewriterAnimatedText(
-                  "Browsing old DVD's...",
-                  speed: const Duration(milliseconds: 200),
-                ),
-                TypewriterAnimatedText(
-                  'This could take a while...',
-                  speed: const Duration(milliseconds: 200),
-                )
-              ],
-              isRepeatingAnimation: true,
-              onTap: () {},
-            ),
-          ),
-        ),
-        const CircularProgressIndicator(),
-        const SizedBox(
-          height: 300.0,
-          width: 100.0,
-        )
-      ],
-    );
+    return const LoadingText();
   }
 }

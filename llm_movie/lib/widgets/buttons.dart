@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:llm_movie/widgets/textstyles.dart';
 
 class ToggleButtonsWrap extends StatefulWidget {
+  final String title;
   final List<bool> isSelected;
   final List<String> items;
   final ValueChanged<int> onPressed;
 
   const ToggleButtonsWrap({
     super.key,
+    required this.title,
     required this.isSelected,
     required this.items,
     required this.onPressed,
@@ -20,6 +22,10 @@ class ToggleButtonsWrap extends StatefulWidget {
 class ToggleButtonsWrapState extends State<ToggleButtonsWrap> {
   @override
   Widget build(BuildContext context) {
+    String title = widget.title;
+    if (widget.items.isEmpty) {
+      return SubtitleText(text: 'No $title found');
+    }
     return Wrap(
       spacing: 8.0,
       children: List.generate(

@@ -1,6 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:llm_movie/widgets/textstyles.dart';
 
 class DetailsFormat extends StatelessWidget {
   final List<Widget> children;
@@ -100,30 +99,40 @@ class LoadingText extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Center(
-          child: DefaultTextStyle(
-            style: const TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blue, width: 2.0),
+              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
             ),
-            child: AnimatedTextKit(
-              animatedTexts: [
-                TypewriterAnimatedText(
-                  'Paging BlockbusterBuddy...',
-                  speed: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: DefaultTextStyle(
+                style: const TextStyle(
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
-                TypewriterAnimatedText(
-                  "Browsing old DVD's...",
-                  speed: const Duration(milliseconds: 200),
+                child: AnimatedTextKit(
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      'Paging BlockbusterBuddy...',
+                      speed: const Duration(milliseconds: 200),
+                    ),
+                    TypewriterAnimatedText(
+                      "Browsing old DVD's...",
+                      speed: const Duration(milliseconds: 200),
+                    ),
+                    TypewriterAnimatedText(
+                      'This could take a while...',
+                      speed: const Duration(milliseconds: 200),
+                    )
+                  ],
+                  isRepeatingAnimation: true,
+                  onTap: () {},
                 ),
-                TypewriterAnimatedText(
-                  'This could take a while...',
-                  speed: const Duration(milliseconds: 200),
-                )
-              ],
-              isRepeatingAnimation: true,
-              onTap: () {},
+              ),
             ),
           ),
         ),
