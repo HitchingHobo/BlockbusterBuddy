@@ -162,60 +162,72 @@ class _DetailsPageState extends State<DetailsPage> {
               },
             ),
           ]),
-          ElevatedButton(
-            onPressed: () {
-              List<String> selectedGenres = [];
-              for (int i = 0; i < genreButtonState.length; i++) {
-                if (genreButtonState[i]) {
-                  selectedGenres.add(widget.movie.genres[i]);
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(85, 60),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.0)),
+              ),
+              onPressed: () {
+                List<String> selectedGenres = [];
+                for (int i = 0; i < genreButtonState.length; i++) {
+                  if (genreButtonState[i]) {
+                    selectedGenres.add(widget.movie.genres[i]);
+                  }
                 }
-              }
-              List<String> selectedKeywords = [];
-              for (int i = 0; i < keywordButtonState.length; i++) {
-                if (keywordButtonState[i]) {
-                  selectedKeywords.add(widget.movie.keywords[i]);
+                List<String> selectedKeywords = [];
+                for (int i = 0; i < keywordButtonState.length; i++) {
+                  if (keywordButtonState[i]) {
+                    selectedKeywords.add(widget.movie.keywords[i]);
+                  }
                 }
-              }
-              List<String> selectedActors = [];
-              for (int i = 0; i < actorsButtonState.length; i++) {
-                if (actorsButtonState[i]) {
-                  selectedActors.add(widget.movie.actors[i]);
+                List<String> selectedActors = [];
+                for (int i = 0; i < actorsButtonState.length; i++) {
+                  if (actorsButtonState[i]) {
+                    selectedActors.add(widget.movie.actors[i]);
+                  }
                 }
-              }
-              List<String> selectedTweaks = [];
-              for (int i = 0; i < tweakButtonState.length; i++) {
-                if (tweakButtonState[i]) {
-                  selectedTweaks.add(widget.movie.tweakGenres[i]);
+                List<String> selectedTweaks = [];
+                for (int i = 0; i < tweakButtonState.length; i++) {
+                  if (tweakButtonState[i]) {
+                    selectedTweaks.add(widget.movie.tweakGenres[i]);
+                  }
                 }
-              }
 
-              if (kDebugMode) {
-                print('Story Slider: $_storySliderValue');
-                print('Camera Slider: $_cameraSliderValue');
-                print('Cast Slider: $_castSliderValue');
-                print('Selected Genres: $selectedGenres');
-                print('Selected Keywords: $selectedKeywords');
-              }
-              Llmprompt prompt = Llmprompt(
-                title: widget.movie.title,
-                releaseYear: releaseYear,
-                story: _storySliderValue.toInt(),
-                cinematography: _cameraSliderValue.toInt(),
-                directing: _castSliderValue.toInt(),
-                genres: selectedGenres,
-                keywords: selectedKeywords,
-                actors: selectedActors,
-                tweakGenres: selectedTweaks,
-              );
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Resultspage(prompt: prompt),
-                ),
-              );
-            },
-            child: const Text('Get your recommendation'),
+                if (kDebugMode) {
+                  print('Story Slider: $_storySliderValue');
+                  print('Camera Slider: $_cameraSliderValue');
+                  print('Cast Slider: $_castSliderValue');
+                  print('Selected Genres: $selectedGenres');
+                  print('Selected Keywords: $selectedKeywords');
+                }
+                Llmprompt prompt = Llmprompt(
+                  title: widget.movie.title,
+                  releaseYear: releaseYear,
+                  story: _storySliderValue.toInt(),
+                  cinematography: _cameraSliderValue.toInt(),
+                  directing: _castSliderValue.toInt(),
+                  genres: selectedGenres,
+                  keywords: selectedKeywords,
+                  actors: selectedActors,
+                  tweakGenres: selectedTweaks,
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Resultspage(prompt: prompt),
+                  ),
+                );
+              },
+              child: const Text(
+                'Get your recommendations',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
           ),
+          const SizedBox(height: 20.0)
         ],
       ),
     );
