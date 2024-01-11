@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage>
                   child: Column(
                     children: [
                       Text(
-                        'Welcome to BlockBusterBuddy!',
+                        'Welcome to BlockbusterBuddy!',
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
