@@ -48,67 +48,73 @@ class _DetailsPageState extends State<DetailsPage> {
       body: ListView(
         padding: const EdgeInsets.all(12.0),
         children: [
-          Center(
-            child: TitleText(
-              text: '${widget.movie.title} ($releaseYear) ',
-            ),
-          ),
           DetailsPosterFormat(
             posterPath: widget.movie.posterPath,
             title: widget.movie.title,
+            description: widget.movie.description,
             releaseYear: releaseYear,
           ),
-          SliderWidget(
-            title: 'Story',
-            sliderValue: _storySliderValue,
-            onChanged: (double value) {
-              setState(
-                () {
-                  _storySliderValue = value;
-                },
-              );
-            },
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 16.0),
+            child: TitleText(text: 'What did you enjoy about this movie?'),
           ),
-          SliderWidget(
-            title: 'Cinematography',
-            sliderValue: _cameraSliderValue,
-            onChanged: (double value) {
-              setState(
-                () {
-                  _cameraSliderValue = value;
+          DetailsFormat(
+            children: [
+              SliderWidget(
+                title: 'Story',
+                sliderValue: _storySliderValue,
+                onChanged: (double value) {
+                  setState(
+                    () {
+                      _storySliderValue = value;
+                    },
+                  );
                 },
-              );
-            },
-          ),
-          SliderWidget(
-            title: 'Directing',
-            sliderValue: _castSliderValue,
-            onChanged: (double value) {
-              setState(
-                () {
-                  _castSliderValue = value;
+              ),
+              SliderWidget(
+                title: 'Cinematography',
+                sliderValue: _cameraSliderValue,
+                onChanged: (double value) {
+                  setState(
+                    () {
+                      _cameraSliderValue = value;
+                    },
+                  );
                 },
-              );
-            },
+              ),
+              SliderWidget(
+                title: 'Directing',
+                sliderValue: _castSliderValue,
+                onChanged: (double value) {
+                  setState(
+                    () {
+                      _castSliderValue = value;
+                    },
+                  );
+                },
+              ),
+            ],
           ),
-          DetailsFormat(children: [
-            const TitleText(
-              text: 'Genres',
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-            ),
-            ToggleButtonsWrap(
-              title: 'genres',
-              isSelected: genreButtonState,
-              items: widget.movie.genres.cast<String>(),
-              onPressed: (index) {
-                setState(
-                  () {
-                    genreButtonState[index] = !genreButtonState[index];
-                  },
-                );
-              },
-            ),
-          ]),
+          DetailsFormat(
+            children: [
+              const TitleText(
+                text: 'Genres',
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+              ),
+              ToggleButtonsWrap(
+                title: 'genres',
+                isSelected: genreButtonState,
+                items: widget.movie.genres.cast<String>(),
+                onPressed: (index) {
+                  setState(
+                    () {
+                      genreButtonState[index] = !genreButtonState[index];
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
           DetailsFormat(children: [
             const TitleText(
               text: 'Keywords',

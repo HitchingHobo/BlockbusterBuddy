@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:llm_movie/widgets/textstyles.dart';
 
 class DetailsFormat extends StatelessWidget {
   final List<Widget> children;
@@ -33,12 +34,14 @@ class DetailsFormat extends StatelessWidget {
 class DetailsPosterFormat extends StatelessWidget {
   final String posterPath;
   final String title;
+  final String description;
   final String releaseYear;
 
   const DetailsPosterFormat({
     super.key,
     required this.posterPath,
     required this.title,
+    required this.description,
     required this.releaseYear,
   });
 
@@ -60,26 +63,24 @@ class DetailsPosterFormat extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12.0),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                TitleText(
+                  text: title,
+                ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    'Rate this movie for a personalized recommendation.',
-                    style: TextStyle(fontSize: 14.5),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: SubtitleText(
+                    text: '($releaseYear)',
                   ),
                 ),
-                Text(
-                  'Use the sliders to score the movie and tap what aspects and actors from the movie you enjoyed most.',
-                  style: TextStyle(fontSize: 14.5),
-                ),
                 Padding(
-                  padding: EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    "Finally if you want a similar movie in a different genre, tap the genre you're interested in.",
-                    style: TextStyle(fontSize: 14.5),
+                    description,
+                    style: const TextStyle(fontSize: 14.5),
                   ),
                 ),
               ],

@@ -18,7 +18,8 @@ Your response should include four different movies, your recommendations must be
 
 All the info given to you in the prompt is what the user enjoyed about the movie, details about the movie that the user did not enjoy are not included in the prompt.
 
-The TweakGenres category is an indicator of what genres the user felt was missing from the original movie and hence should be included in the recommendations.
+The TweakGenres category is an indicator of what genres the user felt was missing from the original movie and hence should be included in the recommendations, 
+do not specifically mention the name "tweakgenre" in your explanation.
 Give extra attention to the requested actors and TweakGenres that the users entered and try to find similar movies with the same actor and genres.
 
 Your answer should come as a json format with the movie title, release year and and explanation.

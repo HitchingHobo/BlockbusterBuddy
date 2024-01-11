@@ -80,7 +80,7 @@ class _ResultspageState extends State<Resultspage> {
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  'Fresh off the presses\nYour AI-curator recommends',
+                  'Your AI-curator recommends',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),

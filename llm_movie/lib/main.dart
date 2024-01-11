@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:llm_movie/api/api.dart';
 import 'package:llm_movie/details_page.dart';
-import 'package:llm_movie/testpage.dart';
+//import 'package:llm_movie/testpage.dart';
 import 'package:provider/provider.dart';
 import 'package:llm_movie/utilities/data_classes.dart';
 import 'package:llm_movie/widgets/movie_card.dart';
@@ -217,17 +217,17 @@ class _HomePageState extends State<HomePage>
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Testpage(),
-            ),
-          );
-        },
-        child: const Icon(Icons.wifi),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) => const Testpage(),
+      //       ),
+      //     );
+      //   },
+      //   child: const Icon(Icons.wifi),
+      // ),
     );
   }
 }
