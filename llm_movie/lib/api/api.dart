@@ -263,11 +263,5 @@ Future<List<dynamic>> fetchRecommendations(String prompt) async {
 
   List<dynamic> recommendationList = responseMap['movies'];
 
-  // for (Map<String, dynamic> movie in moviesList) {
-  //   String title = movie['title'];
-  //   int releaseYear = movie['release_year'];
-  //   String explanation = movie['explanation'];
-  // }
-
   return recommendationList;
 }
